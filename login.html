@@ -13,17 +13,17 @@
       <div class="header">
         Web Name<br>
       </div>
-      <form class="login">
+      <form class="login" action="/login" method="post">
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <label class="form-label" for="form2Example1">Email address</label>
-            <input type="email" id="form2Example1" class="form-control" />
+            <label class="form-label" for="email">Email address</label>
+            <input type="email" id="email" class="form-control" required>
           </div>
         
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <label class="form-label" for="form2Example2">Password</label>
-            <input type="password" id="form2Example2"  class="form-control">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password"  class="form-control" required>
           </div>
         
           <!-- 2 column grid layout for inline styling -->
@@ -43,7 +43,7 @@
           </div>
         
           <!-- Submit button -->
-          <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+          <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
         
           <!-- Register buttons -->
           <div class="text-center">

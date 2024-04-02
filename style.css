@@ -30,7 +30,7 @@ body{
     border-bottom:solid 2px rgb(0, 140, 255);;
 }
 
-.login{
+.login, .register{
     padding-top: 15px;
     margin-left: 15px;
     margin-right: 15px;
