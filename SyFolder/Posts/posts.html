@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link rel="stylesheet" href="posts.css">
+</head>
+<body>
+    <header>
+        <h1>GatherUp</h1>
+        <nav>
+            <ul class="navbar">
+                <li class="active"><a href="../Homepage/homepage.html">Home</a></li>
+                <li><a href="../Posts/posts.html" >Posts</a></li>
+                <li><a href="../Settings/settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <main>
+        <h2>Posts</h2>
+        <div class="post-form">
+          <form>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+    
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image">
+    
+            <br><br>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+    
+        <div class="post-list">
+          <div class="post-card">
+            <img src="mountain.jpeg" alt="Post 1">
+            <div class="post-content">
+              <h3>Join me and climb Lantau Island</h3>
+              <p class="post-meta">Posted by John Doe on Apr 1, 2024</p>
+              <p>There are 3 of us now, starting at 10am and expected to finish at 5pm</p>
+            </div>
+          </div>
+    
+          <div class="post-card">
+            <img src="football.jpeg" alt="Post 2">
+            <div class="post-content">
+              <h3>Let's play football!</h3>
+              <p class="post-meta">Posted by Jane Smith on Mar 3, 2024</p>
+              <p>Let's play football in PolyU.</p>
+            </div>
+          </div>
+    
+          <div class="post-card">
+            <img src="swimming.jpeg" alt="Post 3">
+            <div class="post-content">
+              <h3>Let's swim</h3>
+              <p class="post-meta">Posted by Mike Johnson on June 25, 2020</p>
+              <p>Let's swimming in PolyU.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    
+      <footer>
+        <p>&copy; 2024 GatherUp. All rights reserved.</p>
+      </footer>
+</body>
+</html>
