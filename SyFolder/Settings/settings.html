@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+    <header>
+        <h1>GatherUp</h1>
+        <nav>
+            <ul class="navbar">
+                <li class="active"><a href="../Homepage/homepage.html">Home</a></li>
+                <li><a href="../Posts/posts.html">Posts</a></li>
+                <li><a href="../Settings/settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Settings</h2>
+
+        <section class="profile-section">
+            <h3>Profile</h3>
+            <div class="profile-info">
+                <img src="User1.png" alt="Profile Picture">
+                <div class="profile-details">
+                    <p><strong>Name:</strong> John Doe</p>
+                    <p><strong>Email:</strong> johndoe@example.com</p>
+                    <p><strong>Bio:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <button class="edit-profile-btn">Edit Profile</button>
+        </section>
+
+        <section class="homepage-settings">
+            <h3>Homepage Settings</h3>
+            <div class="setting-item">
+                <label for="num-posts">Number of posts to display:</label>
+                <input type="number" id="num-posts" name="num-posts" min="1" max="10" value="3">
+            </div>
+            <button class="save-settings-btn">Save Settings</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 GatherUp. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
