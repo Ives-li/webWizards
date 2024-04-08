@@ -6,6 +6,17 @@
     <title>Posts</title>
     <link rel="stylesheet" href="posts.css">
     <link rel="stylesheet" href="../style.css">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('post-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          var formData = new FormData(document.getElementById('post-form'));
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'upload.php', true);
+          xhr.send(formData);
+        }); 
+      });
+    </script>  
 </head>
 <body>
     <header>
@@ -22,7 +33,7 @@
     <main>
         <h2>Create Post</h2>
         <div class="post-form">
-          <form>
+          <form id="post-form">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
     
