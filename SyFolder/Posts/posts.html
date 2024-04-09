@@ -18,17 +18,23 @@
             response.forEach(function(post) {
               var img = document.createElement("img");
               img.src = post.imageSrc;
+
               var postDiv = document.createElement("div");
               postDiv.classList.add("post-content");
+
               var postCardDiv = document.createElement("div");
               postCardDiv.classList.add("post-card");
+
               var h3 = document.createElement("h3");
               h3.textContent = post.title;
+
               var postMeta = document.createElement("p");
               postMeta.classList.add("post-meta");
               postMeta.textContent = "Posted by " + post.author + " on " + post.time;
+              
               var p = document.createElement("p");
               p.textContent = post.content;
+              
               postDiv.appendChild(h3);
               postDiv.appendChild(postMeta);
               postDiv.appendChild(p);
