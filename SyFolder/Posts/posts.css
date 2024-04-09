@@ -72,3 +72,21 @@ footer {
   border-color: orange;
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" version="1.1"><circle cx="100" cy="100" r="50" fill="orange" /><line x1="85" y1="100" x2="115" y2="100" stroke="white" stroke-width="5" /><line x1="100" y1="85" x2="100" y2="115" stroke="white" stroke-width="5" /></svg>') no-repeat center;
 }
+
+.post-card {
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-card {
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
