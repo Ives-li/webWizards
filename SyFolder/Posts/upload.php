@@ -44,11 +44,11 @@ function handlePostRequest()
     $title = $_POST['title'];
     $content = $_POST['content'];
     $imageSrc = $_FILES['image']['name'];
-    $uploadDirectory = 'uploads/';
-    $targetPath = $uploadDirectory . $imageSrc;
-    move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
-    $stmt = $pdo->prepare('INSERT INTO posts (title, content, imageSrc, time) VALUES (?, ?, ?, NOW())');
-    $stmt->execute([$title, $content, $imageSrc]);
+    // $uploadDirectory = 'uploads/';
+    // $targetPath = $uploadDirectory . $imageSrc;
+    // move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
+    $stmt = $pdo->prepare('INSERT INTO posts (title, content, time) VALUES (?, ?, NOW())');
+    $stmt->execute([$title, $content]);
     http_response_code(200);
     // author
 }
