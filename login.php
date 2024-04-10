@@ -1,10 +1,11 @@
 <?php
-if(array_key_exists('login', $_POST)) { 
+if (array_key_exists('login', $_POST)) {
     $mail = $_POST['email'];
     $pw = $_POST['password'];
-    login($mail,$pw); 
-} 
-function login($mail, $pw) { 
+    login($mail, $pw);
+}
+function login($mail, $pw)
+{
     // Database configuration
     $host = 'localhost';
     $dbName = 'webWizards';
@@ -17,22 +18,25 @@ function login($mail, $pw) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-        
+
     // Escape the email to prevent SQL injection
     $email = $conn->real_escape_string($mail);
 
-    $sql = "SELECT password FROM users WHERE email = '{$email}'";
+    $sql = "SELECT password,user_id FROM users WHERE email = '{$email}'";
     $result = $conn->query($sql);
-    if ($result === false) {
-        echo "Query execution failed: " . $conn->error;}
 
-    if($result->num_rows === 1){
+    if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $storedPassword = $row['password'];
+        $user_id= $row['user_id'];
         echo "{$storedPassword}";
         // Verify the inputted password against the fetched password
         if ($pw == $storedPassword) {
-            // Passwords match, user is authenticated
+            // Start the session
+            session_start();
+            // Store the user_id in a session variable
+            $_SESSION['user_id'] = $user_id;
+            // Close the database connection
             header("Location: SyFolder/Homepage/homepage.html");
         } else {
             // Passwords do not match
@@ -43,7 +47,5 @@ function login($mail, $pw) {
         //echo "Invalid email or password.";
         echo "email not found.";
     }
-    
-    // Close the database connection
     $conn->close();
 }
