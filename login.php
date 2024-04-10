@@ -1,11 +1,13 @@
 <?php
-if (array_key_exists('login', $_POST)) {
+session_start(); 
+
+if(array_key_exists('login', $_POST)) { 
+    $uname = $_POST['username'];
     $mail = $_POST['email'];
     $pw = $_POST['password'];
-    login($mail, $pw);
-}
-function login($mail, $pw)
-{
+    login($uname,$mail,$pw); 
+} 
+function login($uname, $mail, $pw) { 
     // Database configuration
     $host = 'localhost';
     $dbName = 'webWizards';
@@ -36,7 +38,8 @@ function login($mail, $pw)
             session_start();
             // Store the user_id in a session variable
             $_SESSION['user_id'] = $user_id;
-            // Close the database connection
+            // Passwords match, user is authenticated
+            $_SESSION['uname'] = $uname; 
             header("Location: SyFolder/Homepage/homepage.html");
         } else {
             // Passwords do not match

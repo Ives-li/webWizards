@@ -13,11 +13,22 @@
         event.preventDefault();
         var formData = new FormData(document.getElementById('post-form'));
         var xhr = new XMLHttpRequest();
-        
         xhr.open('POST', 'upload.php', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              document.getElementById('submit').style.background = 'green';
+              document.getElementById('submit').innerText = 'submit successfully!';
+              console.log('submit successfully');
+            } else {
+              document.getElementById('submit').style.background = 'red';
+              document.getElementById('submit').innerText = 'Something wrong!';
+              console.error('submit failed');
+            }
+          };
         xhr.send(formData);
       });
     });
+
   </script>
 </head>
 
@@ -53,12 +64,12 @@
             </select>
 
             <label for="Recommended people">Maximum number of participants: </label>
-            <input type="number" id="people" name="people" required>
+            <input type="number" id="people" name="people" min="1" max="100" required>
             <!-- <label for="image">Image:</label>
             <input type="file" id="image" name="image"> -->
 
         <br><br>
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit">Submit</button>
       </form>
     </div>
 
