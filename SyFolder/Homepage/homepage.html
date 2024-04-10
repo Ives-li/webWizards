@@ -31,6 +31,44 @@
         });
     });
     </script>
+
+     <script>
+        // Function to fetch posts from myPost.php
+        function fetchPosts() {
+          fetch('myPost.php')
+            .then(response => response.json())
+            .then(posts => {
+              const postsContainer = document.getElementById('posts-container');
+              postsContainer.innerHTML = '';
+    
+              posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+    
+                const titleElement = document.createElement('h3');
+                titleElement.textContent = post.title;
+                postElement.appendChild(titleElement);
+    
+                const contentElement = document.createElement('p');
+                contentElement.textContent = post.content;
+                postElement.appendChild(contentElement);
+    
+                const timeElement = document.createElement('p');
+                timeElement.textContent = 'Posted on: ' + post.time;
+                postElement.appendChild(timeElement);
+    
+                postsContainer.appendChild(postElement);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching posts:', error);
+            });
+        }
+    
+        // Call the fetchPosts function when the page loads
+        window.addEventListener('load', fetchPosts);
+      </script>
+
     <header>
         <h1>GatherUp</h1>
         <nav>
@@ -48,48 +86,16 @@
             <div class="left-section">
                 <div class="user-info">
                     <img src="User1.png" alt="User Avatar">
-                    <p>This is my profile.</p>
+                    <p>This is my Profile.</p>
+                    <p>today's weather</p>
                 </div>
+
             </div>
 
             <!-- Right section about recommend profile -->
             <div class="right-section">
                 <h2>My Posts:</h2>
-                <script>
-                    function fetchItems() {
-                      var xhr = new XMLHttpRequest();
-                
-                      xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                          var response = JSON.parse(xhr.responseText);
-                          var postList = document.getElementsByClassName('post-list')[0];
-                          postList.innerHTML = '';
-                          
-                          if (response.length > 0) {
-                            response.forEach(function (post) {
-                              var postElement = document.createElement('div');
-                              postElement.className = 'post';
-                              postElement.innerHTML = `
-                                <h3>${post.title}</h3>
-                                <p>${post.time} | ${post.topic}</p>
-                                <p>${post.content}</p>
-                              `;
-                              postList.appendChild(postElement);
-                            });
-                          } else {
-                            postList.innerHTML = '<p>No posts found.</p>';
-                          }
-                        }
-                      };
-                
-                      xhr.open('GET', 'myPost.php', true);
-                      xhr.send();
-                    }
-                    
-                    fetchItems();
-                  </script>
-                
-                
+                <div id="posts-container"></div>
                 <!-- <div class="featured-posts">
                     <article class="post-card">
                         <img src="mountain.jpeg" alt="mountain">
