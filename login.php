@@ -1,10 +1,13 @@
 <?php
+session_start(); 
+
 if(array_key_exists('login', $_POST)) { 
+    $uname = $_POST['username'];
     $mail = $_POST['email'];
     $pw = $_POST['password'];
-    login($mail,$pw); 
+    login($uname,$mail,$pw); 
 } 
-function login($mail, $pw) { 
+function login($uname, $mail, $pw) { 
     // Database configuration
     $host = 'localhost';
     $dbName = 'webWizards';
@@ -33,6 +36,7 @@ function login($mail, $pw) {
         // Verify the inputted password against the fetched password
         if ($pw == $storedPassword) {
             // Passwords match, user is authenticated
+            $_SESSION['uname'] = $uname; 
             header("Location: SyFolder/Homepage/homepage.html");
         } else {
             // Passwords do not match
