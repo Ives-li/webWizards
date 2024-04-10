@@ -21,8 +21,10 @@ function login($mail, $pw) {
     // Escape the email to prevent SQL injection
     $email = $conn->real_escape_string($mail);
 
-    $sql = "SELECT password FROM user WHERE email = '{$email}'";
+    $sql = "SELECT password FROM users WHERE email = '{$email}'";
     $result = $conn->query($sql);
+    if ($result === false) {
+        echo "Query execution failed: " . $conn->error;}
 
     if($result->num_rows === 1){
         $row = $result->fetch_assoc();
