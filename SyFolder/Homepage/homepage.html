@@ -48,14 +48,49 @@
             <div class="left-section">
                 <div class="user-info">
                     <img src="User1.png" alt="User Avatar">
-                    <p>This is my join table.</p>
+                    <p>This is my profile.</p>
                 </div>
             </div>
 
             <!-- Right section about recommend profile -->
             <div class="right-section">
-                <h2>Featured Posts:</h2>
-                <div class="featured-posts">
+                <h2>My Posts:</h2>
+                <script>
+                    function fetchItems() {
+                      var xhr = new XMLHttpRequest();
+                
+                      xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                          var response = JSON.parse(xhr.responseText);
+                          var postList = document.getElementsByClassName('post-list')[0];
+                          postList.innerHTML = '';
+                          
+                          if (response.length > 0) {
+                            response.forEach(function (post) {
+                              var postElement = document.createElement('div');
+                              postElement.className = 'post';
+                              postElement.innerHTML = `
+                                <h3>${post.title}</h3>
+                                <p>${post.time} | ${post.topic}</p>
+                                <p>${post.content}</p>
+                              `;
+                              postList.appendChild(postElement);
+                            });
+                          } else {
+                            postList.innerHTML = '<p>No posts found.</p>';
+                          }
+                        }
+                      };
+                
+                      xhr.open('GET', 'myPost.php', true);
+                      xhr.send();
+                    }
+                    
+                    fetchItems();
+                  </script>
+                
+                
+                <!-- <div class="featured-posts">
                     <article class="post-card">
                         <img src="mountain.jpeg" alt="mountain">
                         <div class="post-content">
@@ -82,7 +117,7 @@
                             <p>Let's swimming in PolyU.</p>
                         </div>
                     </article>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>
