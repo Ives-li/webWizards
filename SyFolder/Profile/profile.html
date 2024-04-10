@@ -7,6 +7,7 @@
     <title>Settings</title>
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="../style.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
 <body>
@@ -20,36 +21,124 @@
             </ul>
         </nav>
     </header>
-
     <main>
-        <h2>Settings</h2>
-
         <section class="profile-section">
-            <h3>Profile</h3>
+            <h2>Profile</h2>
             <div class="profile-info">
                 <img src="User1.png" alt="Profile Picture">
                 <div class="profile-details">
-                    <p><strong>Name:</strong> <div id="name"> John Doe</div></p>
-                    <p><strong>Email:</strong> johndoe@example.com</p>
-                    <p><strong>Bio:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div id="name" style="font-size: 2rem; font-weight:bold;"></div>
+                    <div id="profileContent"></div>
+                    <div id="editBox" style="display: none;">
+                        <textarea id="editContent"></textarea>
+                        <button id="saveBtn" onclick="saveContent()">Save</button>
+                    </div>
                 </div>
             </div>
-            <button class="edit-profile-btn">Edit Profile</button>
-        </section>
-
-        <section class="homepage-settings">
-            <h3>Homepage Settings</h3>
-            <div class="setting-item">
-                <label for="num-posts">Number of posts to display:</label>
-                <input type="number" id="num-posts" name="num-posts" min="1" max="10" value="3">
-            </div>
-            <button class="save-settings-btn">Save Settings</button>
+            <button class="editProfileBtn" onclick="openEditBox()" id="editBtn">Edit Profile</button>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2024 GatherUp. All rights reserved.</p>
     </footer>
+    <script>
+        var user_id
+        $(document).ready(function () {
+            //Fetch the user_id from the session
+            $.ajax({
+                url: '../get_user_id.php',
+                type: 'GET',
+                success: function (response) {
+                    user_id = response.user_id;
+                    console.log("user_id: " + user_id);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        });
+
+        function displayProfile() {
+            var profileContent = document.getElementById("profileContent");
+            var name = document.getElementById("name");
+            //Fetch the previously submitted content from the server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "profile.php?function=fetchProfile", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ user_id: user_id }));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log(response[0].profile_content);
+                        profileContent.innerText = response[0].profile_content || "";
+                        name.innerText = response[0].username;
+                    } else {
+                        console.error("Error:", xhr.status);
+                    }
+                }
+            };
+        }
+
+        function openEditBox() {
+            var editBox = document.getElementById("editBox");
+            var editContent = document.getElementById("editContent");
+            var profileContent = document.getElementById("profileContent");
+
+            profileContent.style.display = "none";
+            editBox.style.display = "block";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "profile.php?function=fetchProfile", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ user_id: user_id }));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        editContent.value = response[0].profile_content || "";
+                    } else {
+                        console.error("Error:", xhr.status);
+                    }
+                }
+            };
+
+            var openButton = document.getElementById("editBtn");
+            openButton.style.display = "none";
+        }
+
+        function saveContent() {
+            var editBox = document.getElementById("editBox");
+            var editContent = document.getElementById("editContent");
+            var profileContent = document.getElementById("profileContent");
+
+            profileContent.style.display = "block";
+
+            var content = editContent.value;
+            // Send the new content to the server to be stored
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "profile.php?function=saveContent", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ user_id: user_id, content: content }));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("Saved text:", content);
+                    } else {
+                        console.error("Error:", xhr.status);
+                    }
+                }
+            };
+
+            editBox.style.display = "none";
+            displayProfile();
+            var openButton = document.getElementById("editBtn");
+            openButton.style.display = "block";
+        }
+        window.addEventListener("load", displayProfile);
+    </script>
+
 </body>
 
 </html>
