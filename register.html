@@ -1,44 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GatherUp Register</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('register').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var formData = new FormData(document.getElementById('register'));
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'register.php', true);
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById('error').style.background = 'greenyellow';
+            document.getElementById('error').innerText = 'Register Successfully!';
+            console.log('Register Successfully');
+          } else {
+            document.getElementById('error').style.background = 'red';
+            document.getElementById('error').innerText = xhr.responseText;
+            console.error('Register Failed');
+          }
+        };
+      });
+    });
+  </script>
 </head>
+
 <body>
-  <div class = loginForm>
-    <div class = container>
-      <div class="header">
-        GatherUp<br>
-      </div>
-      <form class="register">
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <label class="form-label" for="form2Example1">Email address</label>
-            <input type="email" id="form2Example1" class="form-control" required>
-          </div>
-        
-          <!-- Password input -->
-          <div class="form-outline mb-4">
-            <label class="form-label" for="form2Example2">Password</label>
-            <input type="password" id="form2Example2"  class="form-control" required>
-          </div>
+  <header>
+    <h1>GatherUp</h1>
+  </header>
+  <div id="error"></div>
+  <div class=loginForm>
+    <div class=container>
+      <form class="register" id="register">
+        <!-- Username input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="username">Username</label>
+          <input type="username" id="username" name="username" class="form-control" required>
+        </div>
 
-          <div class="form-outline mb-4">
-            <label class="form-label" for="form2Example2">Confirm Password</label>
-            <input type="password" id="form2Example2"  class="form-control" required>
-          </div>
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" minlength="8" required>
+        </div>
 
-          <!-- Submit button -->
-          <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
-          </div>
-          <div class="text-center">
-            <p>Already have an account? <a href="login.html">Login</a></p>
-          </div>
-        </form>
-      </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" minlength="8" oninput="validatePasswords()" required>
+          <div id="matchPassword"></div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
     </div>
+    <div class="text-center">
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+    </form>
+  </div>
+  </div>
+  <script>
+    var password = document.getElementById("password");
+    var confirmPassword = document.getElementById("confirmPassword");
+    var matchPassword = document.getElementById("matchPassword");
+    var submit = document.getElementsByTagName("button");
+
+    function validatePasswords() {
+      var passwordValue = password.value;
+      var confirmPasswordValue = confirmPassword.value;
+      if (passwordValue === confirmPasswordValue) {
+        matchPassword.innerText = "Passwords match!";
+        matchPassword.style.color = "green";
+      } else {
+        matchPassword.innerText = "Passwords do not match!";
+        matchPassword.style.color = "red";
+      }
+    }
+  </script>
 </body>
+
 </html>
