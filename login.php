@@ -1,12 +1,17 @@
 <?php
 session_start(); 
 
-if(array_key_exists('login', $_POST)) { 
-    $uname = $_POST['username'];
-    $pw = $_POST['password'];
-    login($uname,$pw); 
-} 
-function login($uname, $pw) { 
+// Handle API requests when called through the requesting browser aka client
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'POST':
+        login();
+        break;
+    default:
+        http_response_code(405);
+        echo json_encode(['error' => 'Method Not Allowed']);
+        break;
+}
+function login() { 
     // Database configuration
     $host = 'localhost';
     $dbName = 'webWizards';
@@ -19,6 +24,9 @@ function login($uname, $pw) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+
+    $uname = $_POST['username'];
+    $pw = $_POST['password'];
 
     $sql = "SELECT password, user_id FROM users WHERE username = '{$uname}'";
     $result = $conn->query($sql);
@@ -33,17 +41,17 @@ function login($uname, $pw) {
             session_start();
             // Store the user_id in a session variable
             $_SESSION['user_id'] = $user_id;
-            // Passwords match, user is authenticated
             $_SESSION['uname'] = $uname; 
             header("Location: SyFolder/Homepage/homepage.html");
         } else {
             // Passwords do not match
-            echo "Invalid user or password.";
+            $response = "Invalid Username or Password";
+            echo json_encode($response);
         }
     } else {
-        // Email not found in the database
-        //echo "Invalid email or password.";
-        echo "email not found.";
+        // Username not found in the database
+        $response = "Invalid Username or Password";
+        echo json_encode($response);
     }
     $conn->close();
 }

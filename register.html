@@ -22,7 +22,7 @@
             document.getElementById('error').innerText = 'Register Successfully!';
             console.log('Register Successfully');
           } else {
-            document.getElementById('error').style.background = 'red';
+            document.getElementById('error').style.color = 'red';
             document.getElementById('error').innerText = xhr.responseText;
             console.error('Register Failed');
           }
@@ -36,7 +36,7 @@
   <header>
     <h1>GatherUp</h1>
   </header>
-  <div id="error"></div>
+  <div id="error" style="text-align:center; font-size:20px;"></div>
   <div class=loginForm>
     <div class=container>
       <form class="register" id="register">

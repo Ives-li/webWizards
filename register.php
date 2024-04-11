@@ -2,7 +2,7 @@
 // Handle API requests when called through the requesting browser aka client
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        handlePostRequest();
+        register();
         break;
     default:
         http_response_code(405);
@@ -10,7 +10,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 }
 
-function handlePostRequest(){
+function register(){
     $host = 'localhost';
     $dbName = 'webwizards'; // create this DB first
     $username = 'root';
@@ -54,8 +54,8 @@ function handlePostRequest(){
             echo json_encode("Username Already Registered!");
             http_response_code(400);
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("iss", $id, $uname, $pw);
+            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password, profile_content) VALUES (?, ?, ?,' ')");
+            $stmt->bind_param("isss", $id, $uname, $pw," ");
             if ($stmt->execute()) {
                 $response = "Successfully Registered!";
                 echo json_encode($response);
