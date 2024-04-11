@@ -25,7 +25,11 @@
         <section class="profile-section">
             <h2>Profile</h2>
             <div class="profile-info">
-                <img src="User1.png" alt="Profile Picture">
+                <button id="profileImageBtn" class="profileImageBtn">
+                    <img src="" class="profileImage" alt="bgImage">
+                    <img src="editPencil.png" class="editImage" alt="editImage">
+                </button>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
                 <div class="profile-details">
                     <div id="name" style="font-size: 2rem; font-weight:bold;"></div>
                     <div id="profileContent"></div>
@@ -38,14 +42,15 @@
             <button class="editProfileBtn" onclick="openEditBox()" id="editBtn">Edit Profile</button>
         </section>
     </main>
-
+    <div class="logout" id="logout">
+        <a href="../../login.html"><button id="logoutBtn">Logout</button></a>
+    </div>
     <footer>
         <p>&copy; 2024 GatherUp. All rights reserved.</p>
     </footer>
     <script>
         var user_id
         $(document).ready(function () {
-            displayProfile();
             //Fetch the user_id from the session
             $.ajax({
                 url: '../get_user_id.php',
@@ -113,7 +118,7 @@
             var editBox = document.getElementById("editBox");
             var editContent = document.getElementById("editContent");
             var profileContent = document.getElementById("profileContent");
-
+            
             profileContent.style.display = "block";
 
             var content = editContent.value;
@@ -137,7 +142,7 @@
             var openButton = document.getElementById("editBtn");
             openButton.style.display = "block";
         }
-
+        window.addEventListener("load", displayProfile);
     </script>
 
 </body>

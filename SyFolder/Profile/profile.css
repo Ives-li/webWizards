@@ -11,15 +11,43 @@ body{
     margin-bottom: 20px;
 }
 
-.profile-info img {
+.profileImageBtn {
+    position: relative;
     width: 200px;
     height: 200px;
     border-radius: 50%;
     margin-right: 20px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
 }
 
+.profile-info .profileImageBtn .profileImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info .profileImageBtn .editImage{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Initially set opacity to 0 */
+    max-width: 85%;
+    max-height: 85%;
+  }
+  
+.profile-info .profileImageBtn:hover .editImage {
+    opacity: 0.5; /* Set the desired opacity on hover */
+  }
+
 button[id=editBtn],
-button[id=saveBtn]{
+button[id=saveBtn],
+button[id=logoutBtn]{
     margin-left: 30px;
     padding: 10px 20px;
     font-size: 20px;
@@ -29,6 +57,13 @@ button[id=saveBtn]{
     cursor: pointer;
 }
 
+.logout{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-top: 50px;
+    padding-right: 50px;
+}
 footer {
     position: fixed;
     left: 0;
