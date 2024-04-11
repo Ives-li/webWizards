@@ -49,16 +49,16 @@ function handlePostRequest()
      // 根据选择的活动类型设置对应的图片名称
      switch ($activity) {
         case 'Hiking':
-            $imageSrc = 'hiking.jpg';
+            $imageSrc = 'hiking.jpeg';
             break;
         case 'Badminton':
-            $imageSrc = 'badminton.jpg';
+            $imageSrc = 'badminton.jpeg';
             break;
         case 'Swimming':
-            $imageSrc = 'swimming.jpg';
+            $imageSrc = 'swimming.jpeg';
             break;
         case 'Football':
-            $imageSrc = 'football.jpg';
+            $imageSrc = 'football.jpeg';
             break;
         default:
             $imageSrc = '';
