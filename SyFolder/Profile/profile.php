@@ -53,16 +53,3 @@ function saveContent()
     http_response_code(200);
 }
 
-    session_start();
-
-    // Clear the session variables
-    unset($_SESSION['user_id']);
-    unset($_SESSION['uname']);
-
-    // Destroy the session
-    session_destroy();
-
-    // Redirect the user to the login page or any other desired location
-    header("Location: login.php");
-    exit();
-
