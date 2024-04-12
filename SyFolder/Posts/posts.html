@@ -7,53 +7,74 @@
   <link rel="stylesheet" href="posts.css">
   <link rel="stylesheet" href="../style.css">
   <script>
+document.addEventListener('DOMContentLoaded', function () {
     function fetchItems() {
-      var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          var postList = document.getElementsByClassName('post-list')[0];
-          postList.innerHTML = '';
-          response.forEach(function (post) {
-            var a = document.createElement("a");
-            a.href = "detail.html";
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                var postList = document.getElementsByClassName('post-list')[0];
+                postList.innerHTML = '';
+                response.forEach(function (post) {
+                    var a = document.createElement("a");
+                    a.href = "detail.html";
+                    // add id to post link
+                    a.id = post.id;
+                    var img = document.createElement("img");
+                    img.src = post.imageSrc;
 
-            var img = document.createElement("img");
-            img.src = post.imageSrc;
+                    a.appendChild(img);
 
-            a.appendChild(img);
+                    var postDiv = document.createElement("div");
+                    postDiv.classList.add("post-content");
 
-            var postDiv = document.createElement("div");
-            postDiv.classList.add("post-content");
+                    var postCardDiv = document.createElement("div");
+                    postCardDiv.classList.add("post-card");
 
-            var postCardDiv = document.createElement("div");
-            postCardDiv.classList.add("post-card");
+                    var h3 = document.createElement("h3");
+                    h3.textContent = post.title;
 
-            var h3 = document.createElement("h3");
-            h3.textContent = post.title;
+                    var postMeta = document.createElement("p");
+                    postMeta.classList.add("post-meta");
+                    postMeta.textContent = "Posted by " + post.author + " on " + post.time;
 
-            var postMeta = document.createElement("p");
-            postMeta.classList.add("post-meta");
-            postMeta.textContent = "Posted by " + post.author + " on " + post.time;
+                    var p = document.createElement("p");
+                    p.textContent = post.content;
 
-            var p = document.createElement("p");
-            p.textContent = post.content;
+                    postDiv.appendChild(h3);
+                    postDiv.appendChild(postMeta);
+                    postDiv.appendChild(p);
+                    postCardDiv.appendChild(a);
+                    postCardDiv.appendChild(postDiv);
+                    postList.appendChild(postCardDiv);
+                });
+                addAnchorClickListeners();
+            }
+        };
 
-            postDiv.appendChild(h3);
-            postDiv.appendChild(postMeta);
-            postDiv.appendChild(p);
-            postCardDiv.appendChild(a);
-            postCardDiv.appendChild(postDiv);
-            postList.appendChild(postCardDiv);
-          });
-        }
-      };
-
-      xhr.open('GET', 'upload.php', true);
-      xhr.send();
+        xhr.open('GET', 'upload.php', true);
+        xhr.send();
     }
-    fetchItems();
+    function addAnchorClickListeners() {
+        var aList = document.getElementsByTagName("a");
+        for (var i = 3; i < aList.length; i++) {
+            aList[i].addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default action of anchor tag
+                var a = event.target; // Get the anchor tag that was clicked
+                var parentElement = a.parentNode
+                var pid = parentElement.id
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "detail.php");
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+                xhr.send("type=sendPid&pid=" + pid);
+                window.location.href = parentElement.href;
+            });
+        }
+    }
+
+    fetchItems(); // Call fetchItems() to start fetching items
+});
   </script>
 </head>
 

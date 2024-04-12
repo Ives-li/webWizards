@@ -8,7 +8,75 @@
     <link rel="stylesheet" href="posts.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="detail.css">
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'detail.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var people = response.people;
+            var postList = document.getElementById('joined-people');
+            var ul = document.createElement("ul");
+            var peopleList = people.split(",");
+            for (var i = 0; i < peopleList.length; i++) {
+                var li = document.createElement("li");
+                li.textContent = peopleList[i];
+                ul.appendChild(li);
+            }
+            postList.appendChild(ul);
+            joinButtonHandler();
+        }
+    };
+    xhr.send();
+});
 
+function joinButtonHandler() {
+    document.getElementsByClassName('join-button')[0].addEventListener('click', function (event) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var userIn = xhr.responseText;
+                if (userIn === 'true') {
+                    document.getElementsByClassName('join-button')[0].style.backgroundColor="grey";
+                    document.getElementsByClassName('join-button')[0].innerHTML="User already join!";
+                } else {
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.readyState === 4 && xhr2.status === 200) {
+                            var response = JSON.parse(xhr2.responseText);
+                            var uname = response;
+                            var joinedPeopleList = document.getElementById('joined-people').getElementsByTagName('ul')[0];
+                            var listItem = document.createElement('li');
+                            listItem.textContent = uname;
+                            listItem.style.color = 'green';
+                            joinedPeopleList.appendChild(listItem);
+                            updatePeople();
+                        }
+                    };
+                    xhr2.open('POST', 'detail.php', true);
+                    xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr2.send("type=getUname");
+                }
+            }
+        };
+        xhr.open('POST', 'detail.php', true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("type=checkUser");
+    });
+}
+
+
+
+function updatePeople() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "detail.php");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("type=updateDb");
+}
+
+</script>
 </head>
 
 <body>
@@ -43,13 +111,13 @@
                 <p class="post-detail-text">3</p>
             </div>
 
-            <div class="post-detail-section">
+            <div class="post-detail-section" id="joined-people">
                 <h3>joined People:</h3>
-                <ul>
+                <!-- <ul>
                     <li>John Doe</li>
                     <li>Jane Smith</li>
                     <li>Mike Johnson</li>
-                </ul>
+                </ul> -->
             </div>
         </div>
         <button class="join-button">Join</button>
