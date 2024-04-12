@@ -46,7 +46,6 @@ function handlePostRequest()
     $content = $_POST['content'];
     $activity = $_POST['activity'];
 
-     // 根据选择的活动类型设置对应的图片名称
      switch ($activity) {
         case 'Hiking':
             $imageSrc = 'hiking.jpeg';
@@ -68,9 +67,7 @@ function handlePostRequest()
     // $uploadDirectory = 'uploads/';
     // $targetPath = $uploadDirectory . $imageSrc;
     // move_uploaded_file($_FILES['image']['tmp_name'], $targetPath); 
-    $stmt = $pdo->prepare('INSERT INTO posts (title, content, activity, imageSrc, time, author) VALUES (?, ?, ?, ?, NOW(), ?)');
-    $stmt->execute([$title, $content, $activity, $imageSrc, $_SESSION['uname']]);    
-    http_response_code(200);
-    // author
+    $stmt = $pdo->prepare('INSERT INTO posts (title, content, activity, imageSrc, time, author, people) VALUES (?, ?, ?, ?, NOW(), ?, ?)');
+    $stmt->execute([$title, $content, $activity, $imageSrc, $_SESSION['uname'], $_SESSION['uname']]);    
 }
 

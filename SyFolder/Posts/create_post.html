@@ -15,21 +15,33 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'upload.php', true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
               document.getElementById('submit').style.background = 'green';
-              document.getElementById('submit').innerText = 'submit successfully!';
-              console.log('submit successfully');
+              document.getElementById('submit').innerText = 'Submit successfully!';
+              console.log('Submit successfully');
+              var xhr2 = new XMLHttpRequest();
+              xhr2.open("POST", "detail.php");
+              xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+              xhr2.onreadystatechange = function() {
+                if (xhr2.readyState === 4 && xhr2.status === 200) {
+                  window.location.href = "posts.html";
+                }
+              };
+              xhr2.send("type=updateDb");
+              
             } else {
               document.getElementById('submit').style.background = 'red';
               document.getElementById('submit').innerText = 'Something wrong!';
-              console.error('submit failed');
+              console.error('Submit failed');
             }
-          };
+          }
+        };
         xhr.send(formData);
       });
     });
-
   </script>
+  
 </head>
 
 <body>
