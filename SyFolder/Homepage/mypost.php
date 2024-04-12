@@ -11,8 +11,9 @@ if ($conn->connect_error) {
 }
 
 // Query to retrieve posts by John Doe
-
-$sql = "SELECT * FROM posts WHERE author = 'John Doe' ORDER BY time DESC";
+session_start();
+$uname = $_SESSION['uname'];
+$sql = "SELECT * FROM posts WHERE author = '{$uname}' ORDER BY time DESC";
 $result = $conn->query($sql);
 
 $posts = array();
