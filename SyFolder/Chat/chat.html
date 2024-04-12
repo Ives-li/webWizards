@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GatherUp</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" type="text/css" href="chat.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="chat.js"></script>
+</head>
+
+<body>
+  <script>
+  </script>
+
+  <script>
+  </script>
+
+  <header>
+    <h1>GatherUp</h1>
+    <nav>
+      <ul class="navbar">
+        <li class="active"><a href="../Homepage/homepage.html">Home</a></li>
+        <li><a href="../Posts/posts.html">Posts</a></li>
+        <li><a href="../Profile/profile.html">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Left section about personal profile -->
+      <div class="left-section">
+        <div class="chatList">
+          <h2>Chatroom</h2>
+        </div>
+        <div class="userList" id="userList">
+        </div>
+        <footer>
+          <p>&copy; 2024 GatherUp. All rights reserved.</p>
+        </footer>
+      </div>
+
+      <!-- Right section about recommend profile -->
+      <div class="right-section">
+        <div id="chatBox">
+        </div>
+        <div id="textboxContainer">
+          <form id="textForm">
+            <input type="text" id="textbox" required>
+            <button type="submit" name="sendMsg" value="sendMsg" id="sendMsgBtn">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let user_id = null;
+    $(document).ready(function () {
+      //fetch the user_id from the session
+      $.ajax({
+        url: '../get_user_id.php',
+        type: 'GET',
+        success: function (response) {
+          user_id = response.user_id;
+          console.log("user_id: " + user_id);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error: " + error);
+        }
+      });
+    });
+
+    function displayUsers() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'chat.php?function=fetchUsers', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+          const response = JSON.parse(xhr.responseText);
+          const users = response.users;
+          const userList = document.getElementById('userList');
+          userList.innerHTML = '';
+
+          //iterate through each user and create a button for their name
+          users.forEach(user => {
+            const button = document.createElement('button');
+            button.classList.add('list');
+            button.textContent = user[1];
+            button.id = user[0];
+            button.addEventListener('click', function () {
+              fetchMsg(user[0]);
+            });
+            userList.appendChild(button);
+          });
+        }
+      };
+      xhr.send();
+    }
+
+    let receiver_id = null;
+
+    function fetchMsg(id) {
+      receiver_id = id;
+      console.log('receiverId:', receiver_id);
+      console.log('senderId:', user_id);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'chat.php?function=fetchMsg', true);
+      xhr.setRequestHeader('Content-Type', 'application/json'); //encoding
+      xhr.send(JSON.stringify({ user_id: user_id, receiver_id: receiver_id }));
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          let response = JSON.parse(xhr.responseText);
+          console.log(response);
+          console.log(response.messages);
+          const chatBox = document.getElementById('chatBox');
+          chatBox.innerHTML = '';
+
+          response.messages.forEach(message => {
+            const messageElement = document.createElement('p');
+            messageElement.textContent = `${message.sender_username}: ${message.message_content}`;
+
+            chatBox.appendChild(messageElement);
+          });
+        }
+      };
+    }
+
+    function sendMsg(event) {
+      event.preventDefault();
+
+      const message_content = document.getElementById('textbox').value;
+      console.log(message_content);
+      console.log(receiver_id);
+      console.log(user_id);
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'chat.php?function=sendMsg', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({ message_content: message_content, user_id: user_id, receiver_id: receiver_id }));
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+          document.getElementById('textbox').value = '';
+          fetchMsg(receiver_id);
+        }
+      };
+    }
+
+    displayUsers();
+    const textForm = document.getElementById('textForm');
+    textForm.addEventListener('submit', sendMsg);
+  </script>
+</body>
+
+</html>
