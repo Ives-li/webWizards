@@ -60,19 +60,22 @@
 
   <script>
     let user_id = null;
-    $(document).ready(function () {
-      //fetch the user_id from the session
-      $.ajax({
+        $(document).ready(function() {
+        // Make an AJAX request to fetch the user_id from the session
+        $.ajax({
         url: '../get_user_id.php',
         type: 'GET',
-        success: function (response) {
-          user_id = response.user_id;
-          console.log("user_id: " + user_id);
+        success: function(response) {
+            var JSONresponse = JSON.parse(response);
+            var user_id = JSONresponse.user_id;
+    
+            // Use the user_id as needed
+            console.log("Welcome, user " + user_id);
         },
-        error: function (xhr, status, error) {
-          console.error("Error: " + error);
+        error: function(xhr, status, error) {
+            console.error("Error: " + error);
         }
-      });
+        });
     });
 
     function displayUsers() {

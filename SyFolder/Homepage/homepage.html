@@ -17,10 +17,11 @@
         $(document).ready(function() {
         // Make an AJAX request to fetch the user_id from the session
         $.ajax({
-        url: 'get_user_id.php',
+        url: '../get_user_id.php',
         type: 'GET',
         success: function(response) {
-            var user_id = response.user_id;
+            var JSONresponse = JSON.parse(response);
+            var user_id = JSONresponse.user_id;
     
             // Use the user_id as needed
             console.log("Welcome, user " + user_id);

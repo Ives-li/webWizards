@@ -1,6 +1,5 @@
 <?php
-session_start(); 
-
+session_start();
 // Handle API requests when called through the requesting browser aka client
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
@@ -37,21 +36,17 @@ function login() {
         $user_id= $row['user_id'];
         // Verify the inputted password against the fetched password
         if ($pw == $storedPassword) {
-            // Start the session
-            session_start();
             // Store the user_id in a session variable
             $_SESSION['user_id'] = $user_id;
             $_SESSION['uname'] = $uname; 
-            header("Location: SyFolder/Homepage/homepage.html");
-        } else {
+            echo json_encode(['success' => true, 'user_id' => $user_id, 'uname' => $uname]);
+        } else {    
             // Passwords do not match
-            $response = "Invalid Username or Password";
-            echo json_encode($response);
+            echo json_encode(['success' => false, 'error' => 'Invalid Username or Password']);
         }
     } else {
         // Username not found in the database
-        $response = "Invalid Username or Password";
-        echo json_encode($response);
+        echo json_encode(['success' => false, 'error' => 'Invalid Username or Password']);
     }
     $conn->close();
 }

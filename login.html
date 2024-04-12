@@ -21,12 +21,19 @@
         xhr.send(formData);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log('Login Successfully');
-            window.location.href = 'SyFolder/Homepage/homepage.html';
-          } else {
-            document.getElementById('error').style.color = 'red';
-            document.getElementById('error').innerText = xhr.responseText;
-            console.error('Login Failed');
+            console.log(xhr.response);
+            var response = JSON.parse(xhr.responseText);
+            if (response.success){
+              console.log(response);
+              console.log('Login Successfully');
+              var user_id = response.user_id;
+              var uname = response.uname;
+              window.location.href = 'SyFolder/Homepage/homepage.html?user_id=' + encodeURIComponent(user_id) + '&uname=' + encodeURIComponent(uname);
+            }else {
+              document.getElementById('error').style.color = 'red';
+              document.getElementById('error').innerText = response.error;
+              console.error('Login Failed');
+            }
           }
         };
       });
