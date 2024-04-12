@@ -54,8 +54,9 @@ function register(){
             echo json_encode("Username Already Registered!");
             http_response_code(400);
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password, profile_content) VALUES (?, ?, ?,' ')");
-            $stmt->bind_param("isss", $id, $uname, $pw," ");
+            $profile_content = '';
+            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password, profile_content) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $id, $uname, $pw, $profile_content);
             if ($stmt->execute()) {
                 $response = "Successfully Registered!";
                 echo json_encode($response);
