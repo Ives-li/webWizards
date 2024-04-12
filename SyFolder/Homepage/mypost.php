@@ -10,11 +10,14 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Query to retrieve posts by John Doe
+// Query to retrieve posts by current user
 session_start();
 $uname = $_SESSION['uname'];
-$sql = "SELECT * FROM posts WHERE author = '{$uname}' ORDER BY time DESC";
-$result = $conn->query($sql);
+$sql = "SELECT id, title, content, imageSrc, time, activity FROM posts WHERE author = ? ORDER BY time DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $uname);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $posts = array();
 if ($result->num_rows > 0) {
@@ -23,6 +26,7 @@ if ($result->num_rows > 0) {
   }
 }
 
+$stmt->close();
 $conn->close();
 
 header('Content-Type: application/json');

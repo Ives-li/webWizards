@@ -43,20 +43,27 @@
     
               posts.forEach(post => {
                 const postElement = document.createElement('div');
-                postElement.classList.add('post');
+                postElement.classList.add('post-card');
+
+                const img = document.createElement('img');
     
+                const postContent = document.createElement('div');
+                postElement.classList.add('post-content');
+                
                 const titleElement = document.createElement('h3');
                 titleElement.textContent = post.title;
-                postElement.appendChild(titleElement);
+                postContent.appendChild(titleElement);
     
                 const contentElement = document.createElement('p');
                 contentElement.textContent = post.content;
-                postElement.appendChild(contentElement);
+                postContent.appendChild(contentElement)
     
                 const timeElement = document.createElement('p');
                 timeElement.textContent = 'Posted on: ' + post.time;
-                postElement.appendChild(timeElement);
+                postContent.appendChild(timeElement);
     
+                postElement.appendChild(postContent);
+                postElement.appendChild(img);
                 postsContainer.appendChild(postElement);
               });
             })
@@ -96,7 +103,7 @@
             <div class="right-section">
                 <h2>My Posts:</h2>
                 <div id="posts-container"></div>
-                <!-- <div class="featured-posts">
+                <!-- <div class="my-posts">
                     <article class="post-card">
                         <img src="mountain.jpeg" alt="mountain">
                         <div class="post-content">
