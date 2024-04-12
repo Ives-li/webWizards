@@ -32,6 +32,19 @@ document.addEventListener('DOMContentLoaded', function () {
             var activityP = document.createElement("p");
             activityP.innerHTML = activity
             activityDiv.appendChild(activityP);
+            //display max people
+            var peopleNum = response.peopleNum
+            var peopleNumDiv = document.getElementById('joined-num');
+            var peopleNumP = document.createElement("p");
+            peopleNumP.innerHTML = peopleNum
+            peopleNumDiv.appendChild(peopleNumP);
+            // display duration
+            var fromTime = response.fromTime
+            var toTime = response.toTime
+            var durationDiv = document.getElementById('joined-duration');
+            var durationP = document.createElement("p");
+            durationP.innerHTML = "from " + fromTime + " to " + toTime
+            durationDiv.appendChild(durationP);            
             // display content
             var content = response.content;
             var contentDiv = document.getElementById('joined-content');
@@ -43,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var titleH2 = document.getElementById('joined-title');
             titleH2.innerHTML = title;
             // display time
-            var time = response.time
-            var timeP = document.getElementById('joined-time');
-            timeP.innerHTML = time;
+            var date = response.date
+            var dateP = document.getElementById('joined-time');
+            dateP.innerHTML = date;
             // display image
             // src="mountain.jpeg" 
             var src = response.imageSrc;
@@ -63,11 +76,16 @@ function joinButtonHandler() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                var userIn = xhr.responseText;
-                if (userIn === 'true') {
+                var status = xhr.responseText;
+                if (status === 'user already in') {
                     document.getElementsByClassName('join-button')[0].style.backgroundColor="grey";
                     document.getElementsByClassName('join-button')[0].innerHTML="User already join";
-                } else {
+                }  
+                else if (status === 'reach max people'){
+                    document.getElementsByClassName('join-button')[0].style.backgroundColor="grey";
+                    document.getElementsByClassName('join-button')[0].innerHTML="Reach max people, cannot join";
+                }
+                else {
                     var xhr2 = new XMLHttpRequest();
                     xhr2.onreadystatechange = function () {
                         if (xhr2.readyState === 4 && xhr2.status === 200) {
@@ -136,9 +154,14 @@ function updatePeople() {
                 <!-- <p class="post-detail-text">Hiking</p> -->
             </div>
 
-            <div class="post-detail-section">
+            <div class="post-detail-section" id="joined-num">
                 <h3>Maximum number of participants:</h3>
-                <p class="post-detail-text">3</p>
+                <!-- <p class="post-detail-text">3</p> -->
+            </div>
+
+            <div class="post-detail-section" id="joined-duration">
+                <h3>Time Duration:</h3>
+                <p class="post-detail-text"></p>
             </div>
 
             <div class="post-detail-section" id="joined-people">

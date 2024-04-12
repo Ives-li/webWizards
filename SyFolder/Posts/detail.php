@@ -67,9 +67,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':pid', $_SESSION["pid"], PDO::PARAM_INT);
         $stmt->execute();
         $current_people = $stmt->fetchColumn();
+        $peopleArray = explode(",", $current_people);
+        $peopleCount = count($peopleArray);
+        $stmt1 = $pdo->prepare('SELECT peopleNum FROM posts WHERE id = :pid');
+        $stmt1->bindParam(':pid', $_SESSION["pid"], PDO::PARAM_INT);
+        $stmt1->execute();
+        $peopleNum= $stmt1->fetchColumn();
         if (strpos($current_people, $_SESSION['uname']) !== false) {
-            echo 'true';
-        } else {
+            echo 'user already in';
+        } 
+        else if ($peopleCount>=$peopleNum){
+            echo 'reach max people';
+        }
+        else {
             echo 'false';
         }
     }   

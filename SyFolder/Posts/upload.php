@@ -45,6 +45,11 @@ function handlePostRequest()
     $title = $_POST['title'];
     $content = $_POST['content'];
     $activity = $_POST['activity'];
+    $peopleNum = $_POST['people'];
+    $date = $_POST['date'];
+    $fromTime = $_POST['fromTime'];
+    $toTime = $_POST['toTime'];
+
 
      switch ($activity) {
         case 'Hiking':
@@ -67,7 +72,7 @@ function handlePostRequest()
     // $uploadDirectory = 'uploads/';
     // $targetPath = $uploadDirectory . $imageSrc;
     // move_uploaded_file($_FILES['image']['tmp_name'], $targetPath); 
-    $stmt = $pdo->prepare('INSERT INTO posts (title, content, activity, imageSrc, time, author, people) VALUES (?, ?, ?, ?, NOW(), ?, ?)');
-    $stmt->execute([$title, $content, $activity, $imageSrc, $_SESSION['uname'], $_SESSION['uname']]);    
+    $stmt = $pdo->prepare('INSERT INTO posts (title, content, activity, imageSrc, date, fromTime, toTime, author, people, peopleNum) VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)');
+    $stmt->execute([$title, $content, $activity, $imageSrc, $date, $fromTime,$toTime, $_SESSION['uname'], $_SESSION['uname'],$peopleNum]);    
 }
 

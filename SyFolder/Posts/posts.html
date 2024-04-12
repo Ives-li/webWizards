@@ -37,13 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var postMeta = document.createElement("p");
                     postMeta.classList.add("post-meta");
-                    postMeta.textContent = "Posted by " + post.author + " on " + post.time;
+                    postMeta.textContent = "Posted by " + post.author;
+                    var postMeta1 = document.createElement("p");
+                    postMeta.classList.add("post-meta");
+                    postMeta1.textContent = "Expected Date: " +  post.date;
+
 
                     var p = document.createElement("p");
                     p.textContent = post.content;
 
                     postDiv.appendChild(h3);
                     postDiv.appendChild(postMeta);
+                    postDiv.appendChild(postMeta1);
                     postDiv.appendChild(p);
                     postCardDiv.appendChild(a);
                     postCardDiv.appendChild(postDiv);
