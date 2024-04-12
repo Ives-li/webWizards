@@ -22,6 +22,7 @@
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
             console.log('Login Successfully');
+            window.location.href = 'SyFolder/Homepage/homepage.html';
           } else {
             document.getElementById('error').style.color = 'red';
             document.getElementById('error').innerText = xhr.responseText;
