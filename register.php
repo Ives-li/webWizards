@@ -51,28 +51,23 @@ function register(){
         // Check if the account exists
         if ($count > 0) {
             $response = "Username Already Registered!";
-            echo json_encode("Username Already Registered!");
-            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => $response]);
         } else {
-            $profile_content = '';
-            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password, profile_content) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("isss", $id, $uname, $pw, $profile_content);
+            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("iss", $id, $uname, $pw);
             if ($stmt->execute()) {
                 $response = "Successfully Registered!";
-                echo json_encode($response);
-                http_response_code(200);
-            } else {
-                $response = "Error: " . $stmt->error;
-                echo json_encode($response);
-                http_response_code(400);
+                echo json_encode(['success' => true, 'res' => $response]);
+            } else {    
+                echo json_encode(['success' => false, 'error' => 'Invalid Username or Password']);
             }
         }
     } else {
-        $response = "Password not the same!";
-        echo json_encode($response);
-        http_response_code(400);
+        // Username not found in the database
+        echo json_encode(['success' => false, 'error' => 'Password Not The Same']);
     }
 
+    
     // Close the database connection
     $conn->close();
 
