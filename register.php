@@ -53,8 +53,8 @@ function register(){
             $response = "Username Already Registered!";
             echo json_encode(['success' => false, 'error' => $response]);
         } else {
-            $stmt = $conn->prepare("INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("iss", $id, $uname, $pw);
+            $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+            $stmt->bind_param("ss", $uname, $pw);
             if ($stmt->execute()) {
                 $response = "Successfully Registered!";
                 echo json_encode(['success' => true, 'res' => $response]);

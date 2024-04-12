@@ -23,8 +23,9 @@
     <h1>GatherUp</h1>
     <nav>
       <ul class="navbar">
-        <li class="active"><a href="../Homepage/homepage.html">Home</a></li>
+        <li><a href="../Homepage/homepage.html">Home</a></li>
         <li><a href="../Posts/posts.html">Posts</a></li>
+        <li class="active"><a href="../Chat/chat.html">Posts</a></li>
         <li><a href="../Profile/profile.html">Profile</a></li>
       </ul>
     </nav>
@@ -59,23 +60,23 @@
   </main>
 
   <script>
-    let user_id = null;
-        $(document).ready(function() {
-        // Make an AJAX request to fetch the user_id from the session
-        $.ajax({
+    var user_id = null;
+    $(document).ready(function () {
+      // Make an AJAX request to fetch the user_id from the session
+      $.ajax({
         url: '../get_user_id.php',
         type: 'GET',
-        success: function(response) {
-            var JSONresponse = JSON.parse(response);
-            var user_id = JSONresponse.user_id;
-    
-            // Use the user_id as needed
-            console.log("Welcome, user " + user_id);
+        success: function (response) {
+          var JSONresponse = JSON.parse(response);
+          user_id = JSONresponse.user_id;
+
+          // Use the user_id as needed
+          console.log("Welcome, user " + user_id);
         },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error);
+        error: function (xhr, status, error) {
+          console.error("Error: " + error);
         }
-        });
+      });
     });
 
     function displayUsers() {
@@ -105,7 +106,7 @@
       xhr.send();
     }
 
-    let receiver_id = null;
+    var receiver_id = null;
 
     function fetchMsg(id) {
       receiver_id = id;
