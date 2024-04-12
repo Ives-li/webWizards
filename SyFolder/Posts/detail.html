@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
+            //display people
             var people = response.people;
             var postList = document.getElementById('joined-people');
             var ul = document.createElement("ul");
@@ -25,6 +26,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 ul.appendChild(li);
             }
             postList.appendChild(ul);
+            //display activity
+            var activity = response.activity
+            var activityDiv = document.getElementById('joined-activity');
+            var activityP = document.createElement("p");
+            activityP.innerHTML = activity
+            activityDiv.appendChild(activityP);
+            // display content
+            var content = response.content;
+            var contentDiv = document.getElementById('joined-content');
+            var contentP = document.createElement("p");
+            contentP.innerHTML = content;
+            contentDiv.appendChild(contentP);
+            // display title
+            var title = response.title;
+            var titleH2 = document.getElementById('joined-title');
+            titleH2.innerHTML = title;
+            // display time
+            var time = response.time
+            var timeP = document.getElementById('joined-time');
+            timeP.innerHTML = time;
+            // display image
+            // src="mountain.jpeg" 
+            var src = response.imageSrc;
+            var img = document.getElementById('joined-img');
+            img.src = src;
             joinButtonHandler();
         }
     };
@@ -40,7 +66,7 @@ function joinButtonHandler() {
                 var userIn = xhr.responseText;
                 if (userIn === 'true') {
                     document.getElementsByClassName('join-button')[0].style.backgroundColor="grey";
-                    document.getElementsByClassName('join-button')[0].innerHTML="User already join!";
+                    document.getElementsByClassName('join-button')[0].innerHTML="User already join";
                 } else {
                     var xhr2 = new XMLHttpRequest();
                     xhr2.onreadystatechange = function () {
@@ -53,6 +79,7 @@ function joinButtonHandler() {
                             listItem.style.color = 'green';
                             joinedPeopleList.appendChild(listItem);
                             updatePeople();
+                            document.getElementsByClassName('join-button')[0].innerHTML="Join successfully";
                         }
                     };
                     xhr2.open('POST', 'detail.php', true);
@@ -92,18 +119,20 @@ function updatePeople() {
     </header>
 
     <div class="post-detail-card">
-        <img src="mountain.jpeg" alt="Post Image" class="post-detail-image">
+        <div class="post-img-card">
+        <img alt="Post Image" class="post-detail-image" id="joined-img">
+        </div>
         <div class="post-detail-content">
-            <h2 class="post-detail-title">Join me and climb Lantau Island</h2>
-            <p class="post-detail-meta">Apr 1, 2024 | Hiking</p>
-            <div class="post-detail-section">
+            <h2 class="post-detail-title" id="joined-title"></h2>
+            <p class="post-detail-meta" id="joined-time"></p>
+            <div class="post-detail-section" id="joined-content">
                 <h3>Content:</h3>
-                <p class="post-detail-text">There are 3 of us now, starting at 10am and expected to finish at 5pm</p>
+                <!-- <p class="post-detail-text">There are 3 of us now, starting at 10am and expected to finish at 5pm</p> -->
             </div>
 
-            <div class="post-detail-section">
+            <div class="post-detail-section" id="joined-activity">
                 <h3>Activity:</h3>
-                <p class="post-detail-text">Hiking</p>
+                <!-- <p class="post-detail-text">Hiking</p> -->
             </div>
 
             <div class="post-detail-section">
