@@ -18,6 +18,7 @@ body {
     height: auto;
     max-height: 300px;
     object-fit: cover;
+    object-position: center;
 }
 
 .post-detail-content {
