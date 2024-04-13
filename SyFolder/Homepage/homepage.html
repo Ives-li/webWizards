@@ -47,6 +47,7 @@
                 postElement.classList.add('post-card');
 
                 const img = document.createElement('img');
+                img.src = post.imageSrc
     
                 const postContent = document.createElement('div');
                 postElement.classList.add('post-content');
@@ -60,7 +61,7 @@
                 postContent.appendChild(contentElement)
     
                 const timeElement = document.createElement('p');
-                timeElement.textContent = 'Posted on: ' + post.time;
+                timeElement.textContent = 'Activity Expected Date: ' + post.date;
                 postContent.appendChild(timeElement);
     
                 postElement.appendChild(postContent);

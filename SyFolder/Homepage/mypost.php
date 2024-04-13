@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 // Query to retrieve posts by current user
 session_start();
 $uname = $_SESSION['uname'];
-$sql = "SELECT id, title, content, imageSrc, time, activity FROM posts WHERE author = ? ORDER BY time DESC";
+$sql = "SELECT id, title, content, imageSrc, date, activity FROM posts WHERE author = ? ORDER BY STR_TO_DATE(date, '%Y-%m-%d') DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $uname);
 $stmt->execute();
