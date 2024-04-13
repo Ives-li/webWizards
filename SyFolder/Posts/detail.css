@@ -15,7 +15,8 @@ body {
 
 .post-detail-image {
     width: 100%;
-    height: 300px;
+    height: auto;
+    max-height: 300px;
     object-fit: cover;
 }
 
