@@ -54,7 +54,11 @@ body{
 
 .post-content h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 30px;
+}
+
+.post-content p{
+  font-size: 20px;
 }
 
 .post-meta {
