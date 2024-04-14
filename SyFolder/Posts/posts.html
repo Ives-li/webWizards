@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function addAnchorClickListeners() {
         var aList = document.getElementsByTagName("a");
-        for (var i = 3; i < aList.length; i++) {
+        for (var i = 5; i < aList.length; i++) {
             aList[i].addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default action of anchor tag
                 var a = event.target; // Get the anchor tag that was clicked
